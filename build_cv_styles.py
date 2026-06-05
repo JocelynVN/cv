@@ -963,12 +963,37 @@ PDF_EXPORT_CSS = """
 """
 
 
+def _avatar_data_uri():
+    import base64
+
+    avatar_path = DIR / "avatar.png"
+    if not avatar_path.exists():
+        return None
+    data = avatar_path.read_bytes()
+    if data[:3] == b"\xff\xd8\xff":
+        mime = "image/jpeg"
+    elif data[:8] == b"\x89PNG\r\n\x1a\n":
+        mime = "image/png"
+    else:
+        mime = "image/png"
+    encoded = base64.b64encode(data).decode("ascii")
+    return f"data:{mime};base64,{encoded}"
+
+
 def _prepare_pdf_html(html_path):
+    import re
+
     content = html_path.read_text(encoding="utf-8")
     if "/* PDF export overrides */" not in content:
         content = content.replace("</style>", PDF_EXPORT_CSS + "\n  </style>", 1)
-    avatar_uri = (DIR / "avatar.png").resolve().as_uri()
-    content = content.replace('src="avatar.png"', f'src="{avatar_uri}"')
+    avatar_src = _avatar_data_uri()
+    if avatar_src:
+        content = content.replace('src="avatar.png"', f'src="{avatar_src}"')
+        content = re.sub(
+            r'src="(?:file://[^"]*avatar\.png|data:image/[^;]+;base64,[^"]+)"',
+            f'src="{avatar_src}"',
+            content,
+        )
     tmp_dir = DIR / ".pdf-tmp"
     tmp_dir.mkdir(exist_ok=True)
     tmp_path = tmp_dir / html_path.name
@@ -1014,7 +1039,9 @@ def export_pdfs():
                 chrome,
                 "--headless=new",
                 "--disable-gpu",
+                "--allow-file-access-from-files",
                 "--run-all-compositor-stages-before-draw",
+                "--virtual-time-budget=10000",
                 "--no-pdf-header-footer",
                 f"--print-to-pdf={pdf_path}",
                 pdf_html_path.resolve().as_uri(),
