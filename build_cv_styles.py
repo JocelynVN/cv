@@ -243,7 +243,11 @@ SHARED_MAIN_CSS = '''
     .projects-tags span { font-size: 8pt; background: #fff; border: 1px solid var(--border); border-radius: 3px; padding: 2px 6px; color: var(--text); }
     .projects-cta { display: block; font-size: 8.5pt; color: var(--muted); font-style: italic; }
     .ai-section .job li strong { font-weight: 700; }
-    @media print { body { background: #fff; } .cv { margin: 0; box-shadow: none; } @page { size: A4; margin: 10mm 12mm; } }
+    @media print {
+      body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .cv, .cv-page { margin: 0; box-shadow: none; max-width: 100%; }
+      @page { size: A4; margin: 10mm 12mm; }
+    }
 '''
 
 
@@ -939,17 +943,31 @@ STYLES = {
 ALL_CV_HTML = ["dinh-van-khoa-cv.html", *STYLES.keys()]
 
 
+def _find_chrome():
+    import shutil
+
+    for name in ("google-chrome", "google-chrome-stable", "chromium", "chromium-browser"):
+        path = shutil.which(name)
+        if path:
+            return path
+    return None
+
+
 def export_pdfs():
+    import shutil
     import subprocess
 
     pdf_dir = DIR / "pdf"
     pdf_dir.mkdir(exist_ok=True)
-    wkhtml = subprocess.run(["which", "wkhtmltopdf"], capture_output=True, text=True)
-    if wkhtml.returncode != 0:
-        print("✗ wkhtmltopdf không tìm thấy — bỏ qua xuất PDF")
+    chrome = _find_chrome()
+    wkhtml_bin = shutil.which("wkhtmltopdf")
+    if not chrome and not wkhtml_bin:
+        print("✗ Không tìm thấy Chrome hay wkhtmltopdf — bỏ qua xuất PDF")
         return
 
-    wkhtml_bin = wkhtml.stdout.strip()
+    engine = "Chrome headless" if chrome else "wkhtmltopdf"
+    print(f"PDF engine: {engine}")
+
     for html_name in ALL_CV_HTML:
         html_path = DIR / html_name
         if not html_path.exists():
@@ -957,24 +975,33 @@ def export_pdfs():
             continue
         pdf_name = html_name.replace(".html", ".pdf")
         pdf_path = pdf_dir / pdf_name
-        cmd = [
-            wkhtml_bin,
-            "--quiet",
-            "--page-size", "A4",
-            "--margin-top", "10mm",
-            "--margin-bottom", "10mm",
-            "--margin-left", "12mm",
-            "--margin-right", "12mm",
-            "--enable-local-file-access",
-            "--print-media-type",
-            str(html_path),
-            str(pdf_path),
-        ]
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        if result.returncode == 0:
+        if chrome:
+            cmd = [
+                chrome,
+                "--headless=new",
+                "--disable-gpu",
+                "--run-all-compositor-stages-before-draw",
+                "--no-pdf-header-footer",
+                f"--print-to-pdf={pdf_path}",
+                html_path.resolve().as_uri(),
+            ]
+        else:
+            cmd = [
+                wkhtml_bin,
+                "--quiet",
+                "--page-size", "A4",
+                "--encoding", "UTF-8",
+                "--disable-smart-shrinking",
+                "--enable-local-file-access",
+                str(html_path),
+                str(pdf_path),
+            ]
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=90)
+        if result.returncode == 0 and pdf_path.exists():
             print(f"✓ pdf/{pdf_name}")
         else:
-            print(f"✗ pdf/{pdf_name}: {result.stderr.strip() or 'lỗi không xác định'}")
+            err = result.stderr.strip() or result.stdout.strip() or "lỗi không xác định"
+            print(f"✗ pdf/{pdf_name}: {err}")
 
 
 def main(export_pdf=True):

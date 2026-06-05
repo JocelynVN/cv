@@ -166,7 +166,7 @@
           <span class="tag">${s.tag}</span>
           <div class="actions">
             <button type="button" class="btn btn-view" data-preview>Xem</button>
-            <a class="btn btn-pdf" href="${s.pdf}" download="${filename}">${PDF_ICON} Tải PDF</a>
+            <a class="btn btn-pdf" href="${s.pdf}" target="_blank" rel="noopener" download="${filename}">${PDF_ICON} Tải PDF</a>
           </div>
         </div>`;
       card.querySelectorAll('[data-preview]').forEach(btn => {
