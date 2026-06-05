@@ -64,7 +64,6 @@ JOBS = [
         "bullets": [
             "Quay lại làm part-time sau giai đoạn chuyển sang Elasten VN; hỗ trợ hệ thống nội bộ theo nhu cầu dự án.",
             "Cải tiến và tối ưu hệ thống nội bộ, nền tảng SaaS — đảm bảo ổn định, bảo mật và khả năng mở rộng.",
-            "Nghiên cứu, phát triển gói dịch vụ subscription mới theo chiến lược và chính sách công ty.",
             "Nâng cấp và triển khai dự án khách hàng; thử nghiệm AI tooling nội bộ phục vụ dev và vận hành.",
         ],
     },
