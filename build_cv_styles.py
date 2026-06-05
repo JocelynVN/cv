@@ -253,12 +253,13 @@ SHARED_MAIN_CSS = '''
 '''
 
 
-RESPONSIVE_CSS = '''
-    @media screen and (max-width: 768px) {
-      body { background: #fff; font-size: 10pt; }
+MOBILE_STACK_CSS = '''
+      body { background: #fff; font-size: 10pt; overflow-x: hidden; }
       .cv-page, .cv {
         margin: 0;
+        width: 100%;
         max-width: 100%;
+        min-width: 0;
         min-height: auto;
         box-shadow: none;
         border-radius: 0;
@@ -266,15 +267,14 @@ RESPONSIVE_CSS = '''
         grid-template-columns: none !important;
       }
       .sidebar, aside.sidebar {
+        width: 100%;
         border-right: none !important;
         border-left: none !important;
-        border-bottom: 2px solid var(--navy, var(--accent, var(--ocean, #1e3a5f)));
+        border-bottom: 2px solid var(--navy, var(--accent, var(--coral, var(--ocean, #1e3a5f))));
         padding: 20px 16px;
       }
-      .main, main.main { padding: 20px 16px; }
-      .body, .layout {
-        display: block !important;
-      }
+      .main, main.main { padding: 20px 16px; width: 100%; }
+      .body, .layout { display: block !important; }
       .body .sidebar, .body .main,
       .layout .sidebar, .layout .main {
         border-right: none !important;
@@ -292,9 +292,7 @@ RESPONSIVE_CSS = '''
       }
       .top-left { flex-direction: column; align-items: center; text-align: center; }
       .contact-row, .contact, .profile .contact { justify-content: center; }
-      .cols, .skills-grid, .skills-row {
-        grid-template-columns: 1fr !important;
-      }
+      .cols, .skills-grid, .skills-row { grid-template-columns: 1fr !important; }
       .profile {
         flex-direction: column;
         align-items: center;
@@ -308,7 +306,54 @@ RESPONSIVE_CSS = '''
       .job-period { white-space: normal; }
       .contact-list a, .contact-body { overflow-wrap: anywhere; word-break: normal; }
       .wave, .accent-bar { display: block; }
-    }
+'''
+
+def _embed_css(mobile_css):
+    lines = []
+    for line in mobile_css.split("\n"):
+        stripped = line.strip()
+        if stripped.endswith("{"):
+            indent = line[: len(line) - len(line.lstrip())]
+            selector = stripped[:-1].strip()
+            parts = [p.strip() for p in selector.split(",")]
+            prefixed = ", ".join(
+                p if p.startswith("html.cv-embed") else f"html.cv-embed {p}"
+                for p in parts
+            )
+            lines.append(f"{indent}{prefixed} {{")
+        else:
+            lines.append(line)
+    return "\n".join(lines)
+
+
+EMBED_STACK_CSS = _embed_css(MOBILE_STACK_CSS)
+
+RESPONSIVE_CSS = f'''
+    html {{ -webkit-text-size-adjust: 100%; }}
+    body {{
+      container-type: inline-size;
+      container-name: cv-root;
+      min-width: 0;
+      overflow-x: hidden;
+    }}
+    .cv-page, .cv {{ width: 100%; min-width: 0; }}
+    @container cv-root (max-width: 900px) {{
+{MOBILE_STACK_CSS}
+    }}
+    @media screen and (max-width: 900px) {{
+{MOBILE_STACK_CSS}
+    }}
+{EMBED_STACK_CSS}
+'''
+
+EMBED_SCRIPT = '''
+  <script>
+    (function () {
+      if (new URLSearchParams(location.search).get("embed") === "1") {
+        document.documentElement.classList.add("cv-embed");
+      }
+    })();
+  </script>
 '''
 
 
@@ -325,6 +370,7 @@ def wrap(title, css, body):
 </head>
 <body>
 {body}
+{EMBED_SCRIPT}
 </body>
 </html>
 '''

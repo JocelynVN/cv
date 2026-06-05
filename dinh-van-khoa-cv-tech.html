@@ -66,11 +66,22 @@
       @page { size: A4; margin: 0; }
     }
 
-    @media screen and (max-width: 768px) {
-      body { background: #fff; font-size: 10pt; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      container-type: inline-size;
+      container-name: cv-root;
+      min-width: 0;
+      overflow-x: hidden;
+    }
+    .cv-page, .cv { width: 100%; min-width: 0; }
+    @container cv-root (max-width: 900px) {
+
+      body { background: #fff; font-size: 10pt; overflow-x: hidden; }
       .cv-page, .cv {
         margin: 0;
+        width: 100%;
         max-width: 100%;
+        min-width: 0;
         min-height: auto;
         box-shadow: none;
         border-radius: 0;
@@ -78,15 +89,14 @@
         grid-template-columns: none !important;
       }
       .sidebar, aside.sidebar {
+        width: 100%;
         border-right: none !important;
         border-left: none !important;
-        border-bottom: 2px solid var(--navy, var(--accent, var(--ocean, #1e3a5f)));
+        border-bottom: 2px solid var(--navy, var(--accent, var(--coral, var(--ocean, #1e3a5f))));
         padding: 20px 16px;
       }
-      .main, main.main { padding: 20px 16px; }
-      .body, .layout {
-        display: block !important;
-      }
+      .main, main.main { padding: 20px 16px; width: 100%; }
+      .body, .layout { display: block !important; }
       .body .sidebar, .body .main,
       .layout .sidebar, .layout .main {
         border-right: none !important;
@@ -104,9 +114,7 @@
       }
       .top-left { flex-direction: column; align-items: center; text-align: center; }
       .contact-row, .contact, .profile .contact { justify-content: center; }
-      .cols, .skills-grid, .skills-row {
-        grid-template-columns: 1fr !important;
-      }
+      .cols, .skills-grid, .skills-row { grid-template-columns: 1fr !important; }
       .profile {
         flex-direction: column;
         align-items: center;
@@ -120,7 +128,118 @@
       .job-period { white-space: normal; }
       .contact-list a, .contact-body { overflow-wrap: anywhere; word-break: normal; }
       .wave, .accent-bar { display: block; }
+
     }
+    @media screen and (max-width: 900px) {
+
+      body { background: #fff; font-size: 10pt; overflow-x: hidden; }
+      .cv-page, .cv {
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        min-height: auto;
+        box-shadow: none;
+        border-radius: 0;
+        display: block !important;
+        grid-template-columns: none !important;
+      }
+      .sidebar, aside.sidebar {
+        width: 100%;
+        border-right: none !important;
+        border-left: none !important;
+        border-bottom: 2px solid var(--navy, var(--accent, var(--coral, var(--ocean, #1e3a5f))));
+        padding: 20px 16px;
+      }
+      .main, main.main { padding: 20px 16px; width: 100%; }
+      .body, .layout { display: block !important; }
+      .body .sidebar, .body .main,
+      .layout .sidebar, .layout .main {
+        border-right: none !important;
+        border-left: none !important;
+      }
+      .top, .banner, .head {
+        display: block !important;
+        grid-template-columns: none !important;
+        text-align: center;
+        padding: 20px 16px;
+      }
+      .top .avatar, .banner .avatar, .head .avatar {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .top-left { flex-direction: column; align-items: center; text-align: center; }
+      .contact-row, .contact, .profile .contact { justify-content: center; }
+      .cols, .skills-grid, .skills-row { grid-template-columns: 1fr !important; }
+      .profile {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .chips { flex-direction: column; gap: 12px; }
+      .chip-group p { max-width: none; }
+      .wrap { padding: 16px; }
+      .cv { padding-left: 0; padding-right: 0; }
+      .job-header { flex-direction: column; align-items: flex-start; gap: 2px; }
+      .job-period { white-space: normal; }
+      .contact-list a, .contact-body { overflow-wrap: anywhere; word-break: normal; }
+      .wave, .accent-bar { display: block; }
+
+    }
+
+      body { background: #fff; font-size: 10pt; overflow-x: hidden; }
+      html.cv-embed .cv-page, html.cv-embed .cv {
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        min-height: auto;
+        box-shadow: none;
+        border-radius: 0;
+        display: block !important;
+        grid-template-columns: none !important;
+      }
+      html.cv-embed .sidebar, html.cv-embed aside.sidebar {
+        width: 100%;
+        border-right: none !important;
+        border-left: none !important;
+        border-bottom: 2px solid var(--navy, var(--accent, var(--coral, var(--ocean, #1e3a5f))));
+        padding: 20px 16px;
+      }
+      .main, main.main { padding: 20px 16px; width: 100%; }
+      .body, .layout { display: block !important; }
+      .body .sidebar, .body .main,
+      html.cv-embed .layout .sidebar, html.cv-embed .layout .main {
+        border-right: none !important;
+        border-left: none !important;
+      }
+      html.cv-embed .top, html.cv-embed .banner, html.cv-embed .head {
+        display: block !important;
+        grid-template-columns: none !important;
+        text-align: center;
+        padding: 20px 16px;
+      }
+      html.cv-embed .top .avatar, html.cv-embed .banner .avatar, html.cv-embed .head .avatar {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .top-left { flex-direction: column; align-items: center; text-align: center; }
+      .contact-row, .contact, .profile .contact { justify-content: center; }
+      .cols, .skills-grid, .skills-row { grid-template-columns: 1fr !important; }
+      html.cv-embed .profile {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .chips { flex-direction: column; gap: 12px; }
+      .chip-group p { max-width: none; }
+      .wrap { padding: 16px; }
+      .cv { padding-left: 0; padding-right: 0; }
+      .job-header { flex-direction: column; align-items: flex-start; gap: 2px; }
+      .job-period { white-space: normal; }
+      .contact-list a, .contact-body { overflow-wrap: anywhere; word-break: normal; }
+      .wave, .accent-bar { display: block; }
+
 
   </style>
 </head>
@@ -262,5 +381,14 @@
       </section></main>
   </div>
 </div>
+
+  <script>
+    (function () {
+      if (new URLSearchParams(location.search).get("embed") === "1") {
+        document.documentElement.classList.add("cv-embed");
+      }
+    })();
+  </script>
+
 </body>
 </html>
