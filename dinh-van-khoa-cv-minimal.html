@@ -178,7 +178,7 @@
 
     }
 
-      body { background: #fff; font-size: 10pt; overflow-x: hidden; }
+      html.cv-embed body { background: #fff; font-size: 10pt; overflow-x: hidden; }
       html.cv-embed .cv-page, html.cv-embed .cv {
         margin: 0;
         width: 100%;
@@ -197,8 +197,8 @@
         border-bottom: 2px solid var(--navy, var(--accent, var(--coral, var(--ocean, #1e3a5f))));
         padding: 20px 16px;
       }
-      .main, main.main { padding: 20px 16px; width: 100%; }
-      .body, .layout { display: block !important; }
+      html.cv-embed .main, html.cv-embed main.main { padding: 20px 16px; width: 100%; }
+      html.cv-embed .body, html.cv-embed .layout { display: block !important; }
       .body .sidebar, .body .main,
       html.cv-embed .layout .sidebar, html.cv-embed .layout .main {
         border-right: none !important;
@@ -214,22 +214,22 @@
         margin-left: auto;
         margin-right: auto;
       }
-      .top-left { flex-direction: column; align-items: center; text-align: center; }
-      .contact-row, .contact, .profile .contact { justify-content: center; }
-      .cols, .skills-grid, .skills-row { grid-template-columns: 1fr !important; }
+      html.cv-embed .top-left { flex-direction: column; align-items: center; text-align: center; }
+      html.cv-embed .contact-row, html.cv-embed .contact, html.cv-embed .profile .contact { justify-content: center; }
+      html.cv-embed .cols, html.cv-embed .skills-grid, html.cv-embed .skills-row { grid-template-columns: 1fr !important; }
       html.cv-embed .profile {
         flex-direction: column;
         align-items: center;
         text-align: center;
       }
-      .chips { flex-direction: column; gap: 12px; }
-      .chip-group p { max-width: none; }
-      .wrap { padding: 16px; }
-      .cv { padding-left: 0; padding-right: 0; }
-      .job-header { flex-direction: column; align-items: flex-start; gap: 2px; }
-      .job-period { white-space: normal; }
-      .contact-list a, .contact-body { overflow-wrap: anywhere; word-break: normal; }
-      .wave, .accent-bar { display: block; }
+      html.cv-embed .chips { flex-direction: column; gap: 12px; }
+      html.cv-embed .chip-group p { max-width: none; }
+      html.cv-embed .wrap { padding: 16px; }
+      html.cv-embed .cv { padding-left: 0; padding-right: 0; }
+      html.cv-embed .job-header { flex-direction: column; align-items: flex-start; gap: 2px; }
+      html.cv-embed .job-period { white-space: normal; }
+      html.cv-embed .contact-list a, html.cv-embed .contact-body { overflow-wrap: anywhere; word-break: normal; }
+      html.cv-embed .wave, html.cv-embed .accent-bar { display: block; }
 
 
   </style>

@@ -309,11 +309,26 @@ MOBILE_STACK_CSS = '''
 '''
 
 def _embed_css(mobile_css):
+    import re
+
     lines = []
+    single_line = re.compile(r"^(.+?)\s*\{(.+)\}\s*$")
     for line in mobile_css.split("\n"):
         stripped = line.strip()
+        if not stripped:
+            lines.append(line)
+            continue
+        indent = line[: len(line) - len(line.lstrip())]
+        match = single_line.match(stripped)
+        if match and "{" not in match.group(1):
+            parts = [p.strip() for p in match.group(1).split(",")]
+            prefixed = ", ".join(
+                p if p.startswith("html.cv-embed") else f"html.cv-embed {p}"
+                for p in parts
+            )
+            lines.append(f"{indent}{prefixed} {{ {match.group(2).strip()} }}")
+            continue
         if stripped.endswith("{"):
-            indent = line[: len(line) - len(line.lstrip())]
             selector = stripped[:-1].strip()
             parts = [p.strip() for p in selector.split(",")]
             prefixed = ", ".join(
