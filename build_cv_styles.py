@@ -967,6 +967,8 @@ def _prepare_pdf_html(html_path):
     content = html_path.read_text(encoding="utf-8")
     if "/* PDF export overrides */" not in content:
         content = content.replace("</style>", PDF_EXPORT_CSS + "\n  </style>", 1)
+    avatar_uri = (DIR / "avatar.png").resolve().as_uri()
+    content = content.replace('src="avatar.png"', f'src="{avatar_uri}"')
     tmp_dir = DIR / ".pdf-tmp"
     tmp_dir.mkdir(exist_ok=True)
     tmp_path = tmp_dir / html_path.name
