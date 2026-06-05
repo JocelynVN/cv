@@ -344,17 +344,19 @@ EMBED_STACK_CSS = _embed_css(MOBILE_STACK_CSS)
 
 RESPONSIVE_CSS = f'''
     html {{ -webkit-text-size-adjust: 100%; }}
-    body {{
-      container-type: inline-size;
-      container-name: cv-root;
-      min-width: 0;
-      overflow-x: hidden;
-    }}
-    .cv-page, .cv {{ width: 100%; min-width: 0; }}
-    @container cv-root (max-width: 900px) {{
+    @media screen {{
+      body {{
+        container-type: inline-size;
+        container-name: cv-root;
+        min-width: 0;
+        overflow-x: hidden;
+      }}
+      .cv-page, .cv {{ width: 100%; min-width: 0; }}
+      @container cv-root (max-width: 600px) {{
 {MOBILE_STACK_CSS}
+      }}
     }}
-    @media screen and (max-width: 900px) {{
+    @media screen and (max-width: 600px) {{
 {MOBILE_STACK_CSS}
     }}
 {EMBED_STACK_CSS}
@@ -1070,6 +1072,7 @@ PDF_EXPORT_CSS = """
       margin: 0 !important;
       padding: 0 !important;
       background: #fff !important;
+      container-type: normal !important;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -1081,6 +1084,27 @@ PDF_EXPORT_CSS = """
       min-height: auto !important;
       border-radius: 0 !important;
       overflow: visible !important;
+    }
+    .cv-page {
+      display: grid !important;
+      grid-template-columns: 32% 68% !important;
+    }
+    .cv {
+      display: grid !important;
+    }
+    .sidebar, aside.sidebar {
+      width: auto !important;
+      border-bottom: none !important;
+    }
+    .body, .layout {
+      display: grid !important;
+    }
+    .job-header {
+      flex-direction: row !important;
+      align-items: baseline !important;
+    }
+    .job-period {
+      white-space: nowrap !important;
     }
     .job, .project, .profile, .chips, .projects-more, .summary {
       break-inside: avoid !important;

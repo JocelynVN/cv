@@ -69,14 +69,15 @@
     }
 
     html { -webkit-text-size-adjust: 100%; }
-    body {
-      container-type: inline-size;
-      container-name: cv-root;
-      min-width: 0;
-      overflow-x: hidden;
-    }
-    .cv-page, .cv { width: 100%; min-width: 0; }
-    @container cv-root (max-width: 900px) {
+    @media screen {
+      body {
+        container-type: inline-size;
+        container-name: cv-root;
+        min-width: 0;
+        overflow-x: hidden;
+      }
+      .cv-page, .cv { width: 100%; min-width: 0; }
+      @container cv-root (max-width: 600px) {
 
       body { background: #fff; font-size: 10pt; overflow-x: hidden; }
       .cv-page, .cv {
@@ -131,8 +132,9 @@
       .contact-list a, .contact-body { overflow-wrap: anywhere; word-break: normal; }
       .wave, .accent-bar { display: block; }
 
+      }
     }
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 600px) {
 
       body { background: #fff; font-size: 10pt; overflow-x: hidden; }
       .cv-page, .cv {
