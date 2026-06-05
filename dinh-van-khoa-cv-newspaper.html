@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Newspaper — Đinh Văn Khoa</title>
+  <style>
+
+    :root { --black: #1a1a1a; --gray: #555; --rule: #ccc; --text: #1a1a1a; --muted: #555; --border: #ccc; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: Georgia, 'Times New Roman', serif; font-size: 10.5pt; line-height: 1.45; color: var(--black); background: #f0f0f0; print-color-adjust: exact; }
+    .cv { max-width: 210mm; margin: 16px auto; background: #fff; padding: 32px 36px; box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+    .masthead { text-align: center; border-top: 4px double var(--black); border-bottom: 4px double var(--black); padding: 16px 0; margin-bottom: 16px; }
+    .masthead h1 { font-size: 24pt; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .masthead .role { font-size: 10pt; font-style: italic; color: var(--gray); margin: 4px 0 10px; }
+    .masthead .contact { font-size: 8.5pt; color: var(--gray); display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 16px; font-family: system-ui, sans-serif; }
+    .masthead a { color: var(--black); }
+    .masthead .avatar { width: 80px; height: 80px; border-radius: 4px; object-fit: cover; object-position: center 15%; float: left; margin: 0 16px 8px 0; border: 1px solid var(--rule); }
+    .skills-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--rule); margin-bottom: 14px; font-family: system-ui, sans-serif; }
+    .skills-row h3 { font-size: 7pt; text-transform: uppercase; letter-spacing: .1em; border-bottom: 1px solid var(--black); padding-bottom: 2px; margin-bottom: 5px; }
+    .skills-row p { font-size: 8.5pt; color: var(--gray); line-height: 1.55; }
+    h2 { font-size: 11pt; font-variant: small-caps; letter-spacing: .08em; border-bottom: 1px solid var(--black); padding-bottom: 3px; margin: 14px 0 8px; }
+    .summary { font-size: 10pt; text-align: justify; column-count: 1; }
+    .summary strong { font-weight: 700; }
+    .two-col { column-count: 2; column-gap: 24px; }
+    .job { break-inside: avoid; margin-bottom: 10px; }
+    .job-title { font-weight: 700; font-size: 10pt; }
+    .job-period { font-size: 8.5pt; color: var(--gray); font-style: italic; }
+    .job-company { font-size: 9pt; font-style: italic; }
+    .job ul { padding-left: 14px; font-family: system-ui, sans-serif; font-size: 9pt; }
+    .project { break-inside: avoid; margin-bottom: 8px; font-size: 9.5pt; }
+    .project-header { font-weight: 700; }
+    .project-meta { font-weight: 400; color: var(--gray); font-size: 9pt; }
+    .project ul { font-family: system-ui, sans-serif; font-size: 9pt; padding-left: 14px; }
+
+    .main-section { margin-bottom: 18px; }
+    .main-section:last-child { margin-bottom: 0; }
+    .section-note { font-size: 8.5pt; color: var(--muted); font-style: italic; margin-bottom: 12px; line-height: 1.4; }
+    .summary { font-size: 10pt; text-align: justify; line-height: 1.5; }
+    .summary strong { font-weight: 700; }
+    .job { margin-bottom: 14px; }
+    .job:last-child { margin-bottom: 0; }
+    .job-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 2px; }
+    .job-title { font-weight: 700; font-size: 10.5pt; }
+    .job-period { font-size: 9pt; color: var(--muted); white-space: nowrap; font-weight: 600; }
+    .job-company { font-size: 9.5pt; color: var(--muted); font-style: italic; margin-bottom: 6px; }
+    .job ul { padding-left: 16px; }
+    .job li { font-size: 9.5pt; margin-bottom: 3px; line-height: 1.4; }
+    .project { margin-bottom: 11px; }
+    .project-header { font-size: 9.5pt; font-weight: 700; margin-bottom: 4px; line-height: 1.35; }
+    .project-meta { font-weight: 400; color: var(--muted); font-size: 9pt; }
+    .project ul { padding-left: 14px; }
+    .project li { font-size: 9.5pt; margin-bottom: 2px; line-height: 1.4; }
+    .projects-more { margin-top: 12px; font-size: 9pt; line-height: 1.45; color: var(--muted); }
+    .projects-more-label { color: var(--text); font-weight: 400; }
+    .projects-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 8px; }
+    .projects-tags span { font-size: 8pt; background: #fff; border: 1px solid var(--border); border-radius: 3px; padding: 2px 6px; color: var(--text); }
+    .projects-cta { display: block; font-size: 8.5pt; color: var(--muted); font-style: italic; }
+    .ai-section .job li strong { font-weight: 700; }
+    @media print { body { background: #fff; } .cv { margin: 0; box-shadow: none; } @page { size: A4; margin: 10mm 12mm; } }
+
+  </style>
+</head>
+<body>
+<div class="cv">
+  <header class="masthead">
+    <img class="avatar" src="avatar.png" alt="Đinh Văn Khoa">
+    <h1>Đinh Văn Khoa</h1>
+    <div class="role">Odoo Developer &amp; AI-Augmented Consultant</div>
+    <div class="contact"><a href="mailto:dinhvankhoa14091999@gmail.com">dinhvankhoa14091999@gmail.com</a> · 0982 594 840 · Tiên Minh, Hải Phòng · <a href="https://github.com/JocelynVN">github.com/JocelynVN</a></div>
+  </header>
+  <div class="skills-row">
+    <div><h3>Odoo / Dev</h3><p>Odoo 11–19 · Python · PostgreSQL · XML / QWeb · OWL / JavaScript · HTML / CSS · Git / GitHub · Bootstrap · BigQuery · Looker Studio · Data Pipeline</p></div>
+    <div><h3>Ứng dụng AI</h3><p>MCP Server · AI Skills · AI Agent · Knowledge Base · Prompt Engineering · Cursor / Codex</p></div>
+    <div><h3>Học vấn</h3><p>Cử nhân Công nghệ Thông tin<br>Trường Đại học Hàng hải Việt Nam<br>09/2018 – 06/2022 · GPA 3.2</p></div>
+  </div>
+  <h2>Tóm tắt</h2>
+  <p class="summary">Odoo Developer full-stack, <strong>4+ năm · Odoo 11–19</strong> — làm được cả hai: code sâu và đứng sát người dùng cuối. Tại Viindoo đã đi trọn vòng đời: triển khai ERP đa ngành, phát triển sản phẩm, vận hành SaaS nội bộ; hiện là Engineer chính tại Elasten VN — phát triển module, nâng cấp hệ thống và <strong>đào tạo trực tiếp nhân viên</strong>, nên hiểu nghiệp vụ từ pain point thực tế, không chỉ từ tài liệu yêu cầu. Điểm khác biệt: <strong>AI-augmented developer</strong> — xây dựng MCP Server, Skills và knowledge base Odoo cho agent, rút ngắn vòng lặp dev → review → triển khai mà vẫn giữ chất lượng đầu ra.</p>
+  <h2>Kinh nghiệm làm việc</h2>
+  <div class="two-col">  <div class="job">
+    <div class="job-header">
+      <span class="job-title">Odoo Software Engineer</span>
+      <span class="job-period">03/2025 – Hiện tại · Toàn thời gian</span>
+    </div>
+    <div class="job-company">Công ty TNHH Elasten Việt Nam</div>
+    <ul>
+    <li>Đào tạo và hỗ trợ nhân viên, người dùng nội bộ khai thác Odoo — xây dựng tài liệu hướng dẫn, FAQ nghiệp vụ, giảm ticket lặp lại.</li>
+    <li>Phát triển và tùy chỉnh module theo quy trình bán hàng đa kênh; đảm bảo hệ thống đáp ứng nhu cầu vận hành thực tế.</li>
+    <li>Bảo trì, nâng cấp và tối ưu hệ thống Odoo nội bộ; xử lý sự cố production, đảm bảo vận hành ổn định.</li>
+    <li>Xây dựng CDP, Customer Engagement và Data Warehouse phục vụ phân tích dữ liệu chiến lược.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <div class="job-header">
+      <span class="job-title">Internal System Developer (Part-time)</span>
+      <span class="job-period">06/2025 – Hiện tại</span>
+    </div>
+    <div class="job-company">Công ty Cổ phần Công nghệ Viindoo</div>
+    <ul>
+    <li>Quay lại làm part-time sau giai đoạn chuyển sang Elasten VN; hỗ trợ hệ thống nội bộ theo nhu cầu dự án.</li>
+    <li>Cải tiến và tối ưu hệ thống nội bộ, nền tảng SaaS — đảm bảo ổn định, bảo mật và khả năng mở rộng.</li>
+    <li>Nghiên cứu, phát triển gói dịch vụ subscription mới theo chiến lược và chính sách công ty.</li>
+    <li>Nâng cấp và triển khai dự án khách hàng; thử nghiệm AI tooling nội bộ phục vụ dev và vận hành.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <div class="job-header">
+      <span class="job-title">Product Developer → Project Developer</span>
+      <span class="job-period">02/2022 – 01/2025</span>
+    </div>
+    <div class="job-company">Công ty Cổ phần Công nghệ Viindoo</div>
+    <ul>
+    <li>Tham gia xuyên suốt triển khai và nâng cấp hệ thống cho khách hàng đa ngành — từ sản xuất, bán lẻ đến tư vấn xây dựng.</li>
+    <li>Phân tích nhu cầu, đề xuất và thực hiện giải pháp phù hợp; đóng vai trò key member, giải quyết triệt để vấn đề khách hàng.</li>
+    <li>Nghiên cứu, phát triển và tối ưu sản phẩm Odoo; tiếp xúc hầu hết nghiệp vụ trên nhiều phiên bản (11–19).</li>
+    <li>Phối hợp team dự án cải tiến sản phẩm dựa trên phản hồi thực tế từ triển khai.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <div class="job-header">
+      <span class="job-title">Odoo Developer (Freelance)</span>
+      <span class="job-period">05/2024 – 02/2025</span>
+    </div>
+    <div class="job-company">Dự án độc lập</div>
+    <ul>
+    <li>Xây dựng hệ thống HIS (Hospital Information System) và HMS (Hospital Management System) trên Odoo.</li>
+    <li>Tham gia đội nghiên cứu Robot Y tế tích hợp với hệ thống Odoo.</li>
+    </ul>
+  </div></div>
+  <h2>Ứng dụng AI &amp; Tự động hóa quy trình</h2>
+  <div class="job"><ul><li>Thiết kế và vận hành <strong>MCP Server</strong> kết nối AI với codebase và tri thức Odoo.</li><li>Xây dựng <strong>AI Skills &amp; Agent workflows</strong> (intake, code review, gap analysis, triển khai) — chuẩn hóa quy trình dev/consulting.</li><li>Xây dựng <strong>knowledge base cho AI</strong>: rules, patterns, domain context giúp agent trả lời đúng nghiệp vụ Odoo, giảm hallucination.</li><li>Áp dụng AI hỗ trợ <strong>đào tạo người dùng</strong> (FAQ, hướng dẫn nghiệp vụ) và tăng năng suất dev/review trong môi trường production.</li></ul></div>
+  <h2>Dự án tiêu biểu</h2>
+  <p class="section-note">Một số dự án nổi bật — còn nhiều triển khai &amp; nâng cấp khác trong 4+ năm tại Viindoo chưa liệt kê hết tại đây.</p>
+  <div class="two-col">  <div class="project">
+    <div class="project-header">Nâng cấp Viindoo 16.0 → 17.0<span class="project-meta"> · Viindoo · Developer · Odoo 17</span></div>
+    <ul>
+    <li>Nâng cấp cụm module: Sản xuất, Kho vận, Ví điện tử, Affiliate, HRM và Kế toán — team 8 Developers, 4 Testers.</li>
+    <li>Phân tích, cải tiến và migrate code đảm bảo tương thích phiên bản mới, ổn định sau nâng cấp.</li>
+    </ul>
+  </div>
+  <div class="project">
+    <div class="project-header">Triển khai ERP — Tư vấn Xây dựng Điện 3<span class="project-meta"> · TVXĐ3 · Developer · Odoo 17</span></div>
+    <ul>
+    <li>Phát triển tính năng đặc thù ngành: kiểm soát chất lượng dự án, tạm hoãn HĐ nhân sự, khen thưởng/kỷ luật, hậu kiểm dự án.</li>
+    <li>Phân tích yêu cầu từ dự án xây dựng điện, đề xuất và triển khai giải pháp ERP toàn diện (dự án, tài chính, nhân sự).</li>
+    </ul>
+  </div>
+  <div class="project">
+    <div class="project-header">Triển khai ERP — Zulo Holdings<span class="project-meta"> · MLM &amp; E-commerce · Developer · Odoo 16</span></div>
+    <ul>
+    <li>Xây dựng sàn TMĐT, ví điện tử và hệ thống Affiliate — quản lý giao dịch, hoa hồng đa cấp, thanh toán trực tuyến.</li>
+    <li>Phân tích mô hình bán hàng đa cấp, tùy chỉnh module đáp ứng quy trình kinh doanh đặc thù.</li>
+    </ul>
+  </div>
+  <div class="project">
+    <div class="project-header">Triển khai ERP — Công ty Cổ phần X20<span class="project-meta"> · Dệt may · Developer · Odoo 15</span></div>
+    <ul>
+    <li>Custom manufacturing VN: kế toán sản xuất, tiêu hao định mức, thuê gia công, báo cáo giá thành, PLM/ECO.</li>
+    <li>Phân tích quy trình sản xuất dệt may, đề xuất giải pháp phù hợp đặc thù ngành.</li>
+    </ul>
+  </div>
+  <div class="project">
+    <div class="project-header">Nâng cấp ERP 13.0 → 15.0 — BDO Việt Nam<span class="project-meta"> · Kiểm toán · Team Leader · Odoo 13–15</span></div>
+    <ul>
+    <li>Lead team 2 Developers: phân tích hệ thống, migrate dữ liệu, nâng cấp module Kế toán, HRM, Quản lý dự án.</li>
+    <li>Kiểm tra và khắc phục lỗi sau nâng cấp, đảm bảo hệ thống vận hành ổn định theo đặc thù ngành kiểm toán.</li>
+    </ul>
+  </div>
+  <div class="projects-more" style="column-span:all">
+    <span class="projects-more-label">Các dự án &amp; hạng mục khác đã tham gia:</span>
+    <div class="projects-tags"><span>POS — F&amp;B</span><span>Nâng cấp Odoo</span><span>HIS / HMS</span><span>SaaS nội bộ</span><span>Robot y tế</span><span>Subscription</span><span>CDP / DWH</span><span>Đa ngành</span></div>
+    Danh sách đầy đủ và mô tả chi tiết — sẵn sàng trình bày khi phỏng vấn hoặc theo yêu cầu.
+    <span class="projects-cta">→ Hỏi thêm về domain / module cụ thể bạn quan tâm.</span>
+  </div></div>
+</div>
+</body>
+</html>

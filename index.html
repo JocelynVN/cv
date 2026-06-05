@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV — Chọn style</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; min-height: 100vh; padding: 40px 24px; }
+    body.modal-open { overflow: hidden; }
+    h1 { font-size: 1.5rem; margin-bottom: 6px; }
+    p.sub { color: #64748b; margin-bottom: 28px; font-size: .95rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; max-width: 1200px; }
+    .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,.08); transition: transform .15s, box-shadow .15s; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+    .preview { width: 100%; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 700; color: #fff; border: none; cursor: pointer; font-family: inherit; transition: opacity .15s; }
+    .preview:hover { opacity: .92; }
+    .preview.classic { background: linear-gradient(135deg, #1e3a5f, #2c5282); }
+    .preview.modern { background: linear-gradient(135deg, #0d9488, #14b8a6); }
+    .preview.dark { background: linear-gradient(135deg, #1a1f2e, #c9a227); }
+    .preview.minimal { background: linear-gradient(135deg, #111, #555); }
+    .preview.elegant { background: linear-gradient(135deg, #6b2737, #faf8f5); color: #6b2737; }
+    .preview.corporate { background: linear-gradient(135deg, #1565c0, #e3f2fd); }
+    .preview.creative { background: linear-gradient(135deg, #e85d4c, #fffbf7); }
+    .preview.tech { background: linear-gradient(135deg, #0f172a, #22c55e); font-family: monospace; font-size: 1.1rem; }
+    .preview.nordic { background: linear-gradient(135deg, #5e81ac, #eceff4); color: #2e3440; }
+    .preview.forest { background: linear-gradient(135deg, #1b4332, #d8f3dc); }
+    .preview.indigo { background: linear-gradient(135deg, #4338ca, #eef2ff); }
+    .preview.newspaper { background: linear-gradient(135deg, #1a1a1a, #f5f5f5); color: #1a1a1a; font-family: Georgia, serif; }
+    .preview.geometric { background: linear-gradient(135deg, #ea580c, #1c1917); }
+    .preview.ocean { background: linear-gradient(135deg, #0369a1, #0ea5e9); }
+    .info { padding: 12px 14px 14px; }
+    .info h2 { font-size: .9rem; margin-bottom: 4px; }
+    .info p { font-size: .75rem; color: #64748b; line-height: 1.35; margin-bottom: 10px; }
+    .tag { display: inline-block; font-size: .65rem; padding: 2px 6px; background: #f1f5f9; border-radius: 4px; color: #475569; margin-bottom: 10px; }
+    .actions { display: flex; gap: 8px; }
+    .btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 7px 10px; border-radius: 6px; font-size: .75rem; font-weight: 600; text-decoration: none; transition: background .15s, color .15s; cursor: pointer; border: none; font-family: inherit; }
+    .btn-view { background: #f1f5f9; color: #475569; }
+    .btn-view:hover { background: #e2e8f0; color: #1e293b; }
+    .btn-pdf { background: #0d9488; color: #fff; }
+    .btn-pdf:hover { background: #0f766e; }
+    .btn-pdf svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .toolbar { max-width: 1200px; margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .toolbar .btn { flex: 0 0 auto; padding: 9px 16px; font-size: .85rem; }
+    .btn-all { background: #1e3a5f; color: #fff; }
+    .btn-all:hover { background: #2c5282; }
+
+    /* Modal preview */
+    .modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 16px; opacity: 0; visibility: hidden; transition: opacity .2s, visibility .2s; }
+    .modal.is-open { opacity: 1; visibility: visible; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, .65); backdrop-filter: blur(4px); }
+    .modal-panel { position: relative; width: min(920px, 100%); height: min(92vh, 1100px); background: #fff; border-radius: 14px; box-shadow: 0 24px 64px rgba(0,0,0,.28); display: flex; flex-direction: column; overflow: hidden; transform: scale(.96) translateY(8px); transition: transform .2s; }
+    .modal.is-open .modal-panel { transform: scale(1) translateY(0); }
+    .modal-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid #e2e8f0; background: #f8fafc; flex-shrink: 0; }
+    .modal-header h3 { flex: 1; font-size: 1rem; font-weight: 600; color: #1e293b; }
+    .modal-header .modal-actions { display: flex; gap: 8px; align-items: center; }
+    .modal-header .btn { flex: 0 0 auto; padding: 7px 12px; font-size: .8rem; }
+    .btn-close { width: 36px; height: 36px; padding: 0; border-radius: 8px; background: #e2e8f0; color: #475569; font-size: 1.2rem; line-height: 1; }
+    .btn-close:hover { background: #cbd5e1; color: #1e293b; }
+    .btn-tab { background: #fff; border: 1px solid #cbd5e0; color: #475569; }
+    .btn-tab:hover { background: #f1f5f9; }
+    .modal-body { flex: 1; position: relative; background: #e2e8f0; overflow: hidden; }
+    .modal-body iframe { width: 100%; height: 100%; border: none; background: #fff; }
+    .modal-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #f8fafc; color: #64748b; font-size: .9rem; }
+    .modal-loading.hidden { display: none; }
+
+    @media (max-width: 600px) {
+      body { padding: 24px 16px; }
+      .modal { padding: 0; }
+      .modal-panel { width: 100%; height: 100%; max-height: 100vh; border-radius: 0; }
+      .modal-header .btn-tab { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <h1>CV — Đinh Văn Khoa</h1>
+  <p class="sub">14 style · nội dung giống nhau · xem trước popup hoặc tải PDF.</p>
+
+  <div class="toolbar">
+    <button type="button" class="btn btn-all" id="download-all">Tải tất cả PDF</button>
+  </div>
+
+  <div class="grid" id="cv-grid"></div>
+
+  <div class="modal" id="preview-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h3 id="modal-title">Xem trước CV</h3>
+        <div class="modal-actions">
+          <a class="btn btn-tab" id="modal-open-tab" href="#" target="_blank" rel="noopener">Mở tab mới</a>
+          <a class="btn btn-pdf" id="modal-download" href="#" download>Tải PDF</a>
+          <button type="button" class="btn btn-close" id="modal-close" aria-label="Đóng">&times;</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-loading" id="modal-loading">Đang tải…</div>
+        <iframe id="modal-iframe" title="Xem trước CV"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STYLES = [
+      { id: 'classic',    name: 'Classic Sidebar',  html: 'dinh-van-khoa-cv.html',          pdf: 'pdf/dinh-van-khoa-cv.pdf',          desc: 'Sidebar xám + navy, Merriweather.', tag: 'Mặc định' },
+      { id: 'modern',     name: 'Modern Teal',      html: 'dinh-van-khoa-cv-modern.html',   pdf: 'pdf/dinh-van-khoa-cv-modern.pdf',   desc: 'Header ngang, accent teal.', tag: 'Teal' },
+      { id: 'dark',       name: 'Dark Executive',   html: 'dinh-van-khoa-cv-dark.html',     pdf: 'pdf/dinh-van-khoa-cv-dark.pdf',     desc: 'Sidebar tối + gold.', tag: 'Dark' },
+      { id: 'minimal',    name: 'Minimal Swiss',    html: 'dinh-van-khoa-cv-minimal.html',  pdf: 'pdf/dinh-van-khoa-cv-minimal.pdf',  desc: 'Đen trắng, 1 cột.', tag: 'Minimal' },
+      { id: 'elegant',    name: 'Elegant Paper',    html: 'dinh-van-khoa-cv-elegant.html',  pdf: 'pdf/dinh-van-khoa-cv-elegant.pdf',  desc: 'Kem + wine đỏ, centered.', tag: 'Serif' },
+      { id: 'corporate',  name: 'Corporate Blue',   html: 'dinh-van-khoa-cv-corporate.html',pdf: 'pdf/dinh-van-khoa-cv-corporate.pdf',desc: 'Banner xanh, doanh nghiệp.', tag: 'Blue' },
+      { id: 'creative',   name: 'Creative Coral',   html: 'dinh-van-khoa-cv-creative.html', pdf: 'pdf/dinh-van-khoa-cv-creative.pdf', desc: 'Sidebar coral đậm.', tag: 'Coral' },
+      { id: 'tech',       name: 'Tech Terminal',    html: 'dinh-van-khoa-cv-tech.html',     pdf: 'pdf/dinh-van-khoa-cv-tech.pdf',     desc: 'Mono, dev portfolio.', tag: 'Terminal', preview: '{ }' },
+      { id: 'nordic',     name: 'Nordic Clean',     html: 'dinh-van-khoa-cv-nordic.html',   pdf: 'pdf/dinh-van-khoa-cv-nordic.pdf',   desc: 'Scandinavian, nhẹ.', tag: 'Nordic' },
+      { id: 'forest',     name: 'Forest Green',     html: 'dinh-van-khoa-cv-forest.html',   pdf: 'pdf/dinh-van-khoa-cv-forest.pdf',   desc: 'Xanh rừng, sidebar đậm.', tag: 'Green' },
+      { id: 'indigo',     name: 'Indigo Right',     html: 'dinh-van-khoa-cv-indigo.html',   pdf: 'pdf/dinh-van-khoa-cv-indigo.pdf',   desc: 'Sidebar bên phải, indigo.', tag: 'Right bar' },
+      { id: 'newspaper',  name: 'Newspaper',        html: 'dinh-van-khoa-cv-newspaper.html',pdf: 'pdf/dinh-van-khoa-cv-newspaper.pdf',desc: 'Báo chí, 2 cột, serif.', tag: 'Editorial' },
+      { id: 'geometric',  name: 'Geometric Bold',   html: 'dinh-van-khoa-cv-geometric.html',pdf: 'pdf/dinh-van-khoa-cv-geometric.pdf',desc: 'Cam + đen, avatar lục giác.', tag: 'Bold' },
+      { id: 'ocean',      name: 'Ocean Breeze',     html: 'dinh-van-khoa-cv-ocean.html',    pdf: 'pdf/dinh-van-khoa-cv-ocean.pdf',    desc: 'Xanh biển, card bo tròn.', tag: 'Ocean' },
+    ];
+
+    const PDF_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+
+    const modal = document.getElementById('preview-modal');
+    const iframe = document.getElementById('modal-iframe');
+    const loading = document.getElementById('modal-loading');
+    const modalTitle = document.getElementById('modal-title');
+    const modalOpenTab = document.getElementById('modal-open-tab');
+    const modalDownload = document.getElementById('modal-download');
+
+    function openPreview(style) {
+      modalTitle.textContent = style.name;
+      modalOpenTab.href = style.html;
+      modalDownload.href = style.pdf;
+      modalDownload.download = style.pdf.split('/').pop();
+      loading.classList.remove('hidden');
+      iframe.src = style.html;
+      modal.classList.add('is-open');
+      document.body.classList.add('modal-open');
+    }
+
+    function closePreview() {
+      modal.classList.remove('is-open');
+      document.body.classList.remove('modal-open');
+      iframe.src = 'about:blank';
+    }
+
+    iframe.addEventListener('load', () => loading.classList.add('hidden'));
+
+    document.getElementById('modal-close').addEventListener('click', closePreview);
+    modal.querySelector('[data-close]').addEventListener('click', closePreview);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closePreview();
+    });
+
+    const grid = document.getElementById('cv-grid');
+    STYLES.forEach(s => {
+      const filename = s.pdf.split('/').pop();
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <button type="button" class="preview ${s.id}" data-preview>${s.preview || 'Aa'}</button>
+        <div class="info">
+          <h2>${s.name}</h2>
+          <p>${s.desc}</p>
+          <span class="tag">${s.tag}</span>
+          <div class="actions">
+            <button type="button" class="btn btn-view" data-preview>Xem</button>
+            <a class="btn btn-pdf" href="${s.pdf}" download="${filename}">${PDF_ICON} Tải PDF</a>
+          </div>
+        </div>`;
+      card.querySelectorAll('[data-preview]').forEach(btn => {
+        btn.addEventListener('click', () => openPreview(s));
+      });
+      grid.appendChild(card);
+    });
+
+    document.getElementById('download-all').addEventListener('click', () => {
+      STYLES.forEach((s, i) => {
+        setTimeout(() => {
+          const a = document.createElement('a');
+          a.href = s.pdf;
+          a.download = s.pdf.split('/').pop();
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        }, i * 500);
+      });
+    });
+  </script>
+</body>
+</html>
