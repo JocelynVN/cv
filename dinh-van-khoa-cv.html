@@ -390,6 +390,7 @@
         max-width: none;
         width: 100%;
         min-height: auto;
+        overflow: visible;
       }
 
       @page {
@@ -397,16 +398,25 @@
         margin: 0;
       }
 
-      .main-section {
+      .summary,
+      .projects-more {
         break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .main-section > h2 {
+        break-after: avoid;
+        page-break-after: avoid;
       }
 
       .job {
         break-inside: avoid;
+        page-break-inside: avoid;
       }
 
       .project {
         break-inside: avoid;
+        page-break-inside: avoid;
       }
     }
   </style>

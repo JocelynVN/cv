@@ -224,7 +224,7 @@ SHARED_MAIN_CSS = '''
     .section-note { font-size: 8.5pt; color: var(--muted); font-style: italic; margin-bottom: 12px; line-height: 1.4; }
     .summary { font-size: 10pt; text-align: justify; line-height: 1.5; }
     .summary strong { font-weight: 700; }
-    .job { margin-bottom: 14px; }
+    .job { margin-bottom: 14px; break-inside: avoid; page-break-inside: avoid; }
     .job:last-child { margin-bottom: 0; }
     .job-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 2px; }
     .job-title { font-weight: 700; font-size: 10.5pt; }
@@ -232,7 +232,7 @@ SHARED_MAIN_CSS = '''
     .job-company { font-size: 9.5pt; color: var(--muted); font-style: italic; margin-bottom: 6px; }
     .job ul { padding-left: 16px; }
     .job li { font-size: 9.5pt; margin-bottom: 3px; line-height: 1.4; }
-    .project { margin-bottom: 11px; }
+    .project { margin-bottom: 11px; break-inside: avoid; page-break-inside: avoid; }
     .project-header { font-size: 9.5pt; font-weight: 700; margin-bottom: 4px; line-height: 1.35; }
     .project-meta { font-weight: 400; color: var(--muted); font-size: 9pt; }
     .project ul { padding-left: 14px; }
@@ -245,7 +245,9 @@ SHARED_MAIN_CSS = '''
     .ai-section .job li strong { font-weight: 700; }
     @media print {
       body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cv, .cv-page { margin: 0; box-shadow: none; max-width: none; width: 100%; border-radius: 0; }
+      .cv, .cv-page { margin: 0; box-shadow: none; max-width: none; width: 100%; border-radius: 0; overflow: visible; }
+      .profile, .chips, .projects-more, .summary { break-inside: avoid; page-break-inside: avoid; }
+      .main-section > h2, .main h2 { break-after: avoid; page-break-after: avoid; }
       @page { size: A4; margin: 0; }
     }
 '''
@@ -959,6 +961,15 @@ PDF_EXPORT_CSS = """
       width: 100% !important;
       min-height: auto !important;
       border-radius: 0 !important;
+      overflow: visible !important;
+    }
+    .job, .project, .profile, .chips, .projects-more, .summary {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+    .main-section > h2, .main h2 {
+      break-after: avoid !important;
+      page-break-after: avoid !important;
     }
 """
 
