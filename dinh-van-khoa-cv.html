@@ -379,16 +379,22 @@
         print-color-adjust: exact;
       }
 
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+
       .cv-page {
         margin: 0;
         box-shadow: none;
-        max-width: 100%;
+        max-width: none;
+        width: 100%;
         min-height: auto;
       }
 
       @page {
         size: A4;
-        margin: 10mm 12mm;
+        margin: 0;
       }
 
       .main-section {

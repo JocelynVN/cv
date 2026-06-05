@@ -245,8 +245,8 @@ SHARED_MAIN_CSS = '''
     .ai-section .job li strong { font-weight: 700; }
     @media print {
       body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cv, .cv-page { margin: 0; box-shadow: none; max-width: 100%; }
-      @page { size: A4; margin: 10mm 12mm; }
+      .cv, .cv-page { margin: 0; box-shadow: none; max-width: none; width: 100%; border-radius: 0; }
+      @page { size: A4; margin: 0; }
     }
 '''
 
@@ -942,6 +942,37 @@ STYLES = {
 
 ALL_CV_HTML = ["dinh-van-khoa-cv.html", *STYLES.keys()]
 
+PDF_EXPORT_CSS = """
+    /* PDF export overrides */
+    @page { size: A4; margin: 0; }
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: #fff !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .cv-page, .cv {
+      margin: 0 !important;
+      box-shadow: none !important;
+      max-width: none !important;
+      width: 100% !important;
+      min-height: auto !important;
+      border-radius: 0 !important;
+    }
+"""
+
+
+def _prepare_pdf_html(html_path):
+    content = html_path.read_text(encoding="utf-8")
+    if "/* PDF export overrides */" not in content:
+        content = content.replace("</style>", PDF_EXPORT_CSS + "\n  </style>", 1)
+    tmp_dir = DIR / ".pdf-tmp"
+    tmp_dir.mkdir(exist_ok=True)
+    tmp_path = tmp_dir / html_path.name
+    tmp_path.write_text(content, encoding="utf-8")
+    return tmp_path
+
 
 def _find_chrome():
     import shutil
@@ -975,6 +1006,7 @@ def export_pdfs():
             continue
         pdf_name = html_name.replace(".html", ".pdf")
         pdf_path = pdf_dir / pdf_name
+        pdf_html_path = _prepare_pdf_html(html_path)
         if chrome:
             cmd = [
                 chrome,
@@ -983,17 +1015,21 @@ def export_pdfs():
                 "--run-all-compositor-stages-before-draw",
                 "--no-pdf-header-footer",
                 f"--print-to-pdf={pdf_path}",
-                html_path.resolve().as_uri(),
+                pdf_html_path.resolve().as_uri(),
             ]
         else:
             cmd = [
                 wkhtml_bin,
                 "--quiet",
                 "--page-size", "A4",
+                "--margin-top", "0",
+                "--margin-bottom", "0",
+                "--margin-left", "0",
+                "--margin-right", "0",
                 "--encoding", "UTF-8",
                 "--disable-smart-shrinking",
                 "--enable-local-file-access",
-                str(html_path),
+                str(pdf_html_path),
                 str(pdf_path),
             ]
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=90)
