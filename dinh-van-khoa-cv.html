@@ -370,6 +370,47 @@
       color: var(--navy);
     }
 
+    /* Mobile */
+    @media screen and (max-width: 768px) {
+      body {
+        background: #fff;
+        font-size: 10pt;
+      }
+
+      .cv-page {
+        margin: 0;
+        max-width: 100%;
+        min-height: auto;
+        box-shadow: none;
+        display: block;
+      }
+
+      .sidebar {
+        border-right: none;
+        border-bottom: 2px solid var(--navy);
+        padding: 20px 16px;
+      }
+
+      .main {
+        padding: 20px 16px;
+      }
+
+      .job-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+
+      .job-period {
+        white-space: normal;
+      }
+
+      .contact-list a,
+      .contact-body {
+        overflow-wrap: anywhere;
+      }
+    }
+
     /* Print */
     @media print {
       body {

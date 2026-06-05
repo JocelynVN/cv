@@ -66,6 +66,62 @@
       @page { size: A4; margin: 0; }
     }
 
+    @media screen and (max-width: 768px) {
+      body { background: #fff; font-size: 10pt; }
+      .cv-page, .cv {
+        margin: 0;
+        max-width: 100%;
+        min-height: auto;
+        box-shadow: none;
+        border-radius: 0;
+        display: block !important;
+        grid-template-columns: none !important;
+      }
+      .sidebar, aside.sidebar {
+        border-right: none !important;
+        border-left: none !important;
+        border-bottom: 2px solid var(--navy, var(--accent, var(--ocean, #1e3a5f)));
+        padding: 20px 16px;
+      }
+      .main, main.main { padding: 20px 16px; }
+      .body, .layout {
+        display: block !important;
+      }
+      .body .sidebar, .body .main,
+      .layout .sidebar, .layout .main {
+        border-right: none !important;
+        border-left: none !important;
+      }
+      .top, .banner, .head {
+        display: block !important;
+        grid-template-columns: none !important;
+        text-align: center;
+        padding: 20px 16px;
+      }
+      .top .avatar, .banner .avatar, .head .avatar {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .top-left { flex-direction: column; align-items: center; text-align: center; }
+      .contact-row, .contact, .profile .contact { justify-content: center; }
+      .cols, .skills-grid, .skills-row {
+        grid-template-columns: 1fr !important;
+      }
+      .profile {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .chips { flex-direction: column; gap: 12px; }
+      .chip-group p { max-width: none; }
+      .wrap { padding: 16px; }
+      .cv { padding-left: 0; padding-right: 0; }
+      .job-header { flex-direction: column; align-items: flex-start; gap: 2px; }
+      .job-period { white-space: normal; }
+      .contact-list a, .contact-body { overflow-wrap: anywhere; word-break: normal; }
+      .wave, .accent-bar { display: block; }
+    }
+
   </style>
 </head>
 <body>
